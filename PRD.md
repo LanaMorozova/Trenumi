@@ -781,6 +781,8 @@ Open modeling questions:
 | NFR-12 | Layouts tolerate Ukrainian string lengths (~15–30% longer than English) without truncation or overflow; reviewed in both languages. | [A] |
 | NFR-13 | The architecture permits adding a language without touching screen code. | [C] |
 | NFR-14 | The data model keeps future multi-trainer support viable per §3.2.4. | [C] |
+| NFR-15 | Focus management: while a modal, sheet or dialog is open, keyboard and switch-control focus is trapped inside it. Controls behind the scrim are not reachable, not focusable and not announced by VoiceOver or TalkBack; focus returns to the element that opened the overlay when it closes. | [C] |
+| NFR-16 | The keyboard focus indicator is drawn outside the control with a visible separation and never relies on colour alone; it is distinct from the pressed and the selected appearance. Any control placed over a photograph, video or other arbitrary backdrop needs its own focus treatment, because a single theme-dependent indicator colour cannot be guaranteed to contrast there. | [C] |
 
 ### 8.2 Security
 
@@ -949,6 +951,15 @@ Carried over from README §7, expanded with impact and a proposed default where 
 | 2026-10-28 | Confirmed **solo-built product**, one person, AI-assisted | §4.1.1, CLAUDE.md §0 |
 | 2026-10-28 | Product name: **Trenumi** (working title, replaces "Fitness Coach App") | README §7 decision 12 |
 | 2026-10-28 | Duplicate training day and whole week — **P0** | FR-PRG-05a/05b |
+| 2026-10-30 | Focus indicator: external ring, 2px with a 2px gap, dark in light mode and light in dark mode | NFR-16, CLAUDE.md §4.3 |
+| 2026-10-30 | Focus is trapped inside an open modal; controls under the scrim cannot receive focus | NFR-15 |
+| 2026-10-30 | Controls over photo or video backdrops get a contextual focus treatment, deferred until such a screen exists | NFR-16 |
+| 2026-10-30 | Two-tone focus ring measured and **rejected** for global use; one tone per theme stands | NFR-16, docs/design-system/buttons.md §3 |
+| 2026-10-30 | Disabled buttons: Primary, Destructive and Accent neutral filled; Secondary keeps its outline; Ghost fully transparent | docs/design-system/buttons.md §4 |
+| 2026-10-30 | Accent button carries a 1px dark border in light mode only — lime on white is 1.15:1; in dark the token resolves to transparent | docs/design-system/buttons.md §2 |
+| 2026-10-30 | Button labels are **Manrope Medium 500** via `Label/SM` and `Label/MD`; `Body/*` stays Regular 400 for everything else | CLAUDE.md §4.3 |
+| 2026-10-30 | Library presentation standard: documentation in the left sidebar, components and examples on the right | CLAUDE.md §4.9 |
+| 2026-10-30 | Lucide `INSTANCE_SWAP` discards icon colour bindings — interim re-bind procedure in force; mask + colour plate **proposed, not implemented** | docs/design-system/buttons.md §5 |
 | 2026-10-28 | Both trainer and client may record results; entries keyed by author, neither overwrites. **Which entry leads on disagreement is PROPOSED, not approved** | §6.6.1, FR-PRO-09/10 |
 | 2026-10-28 | Critical notifications delivered individually; client activity batched into a digest | FR-NOT-09/10 |
 | 2026-10-28 | **Simplified:** one client-owned goal field; trainer keeps experience level + free-text notes only | §3.4, FR-CLI-02 |

@@ -1,6 +1,6 @@
 # CLAUDE.md — Working instructions for Trenumi
 
-**Version:** 0.6 — October 29, 2026
+**Version:** 0.7 — October 30, 2026
 **Project phase:** Product discovery and MVP definition. **No application code is to be written yet.**
 
 ---
@@ -139,6 +139,10 @@ These come from settled product decisions (PRD §3.2.4, §6.9). They are cheap t
 | MD | 48 | 18 | Mobile + desktop — smallest standard size on mobile |
 | LG | 56 | 20 | Mobile + desktop |
 
+**[C]** Button labels are **Manrope Medium 500**, through the text styles `Label/SM` (14/20) and `Label/MD` (16/24). These differ from `Body/SM` and `Body/MD` in weight only. This is a rule for buttons and control labels, not a change to application typography: the `Body/*` styles stay Regular 400 and are used by everything else.
+
+**[A]** Figma picks a component set's default variant by canvas position and the plugin API cannot override it, so the Button set reports `Size=SM` as its technical default. That is a Figma artefact, not the product rule: on mobile, set `Size=MD` explicitly. Full reasoning in `docs/design-system/buttons.md`.
+
 **[A]** Other platform obligations already identified, to re-check before submission: in-app purchase for subscriptions, an in-app account-deletion path, a public privacy policy, accurate privacy declarations for health-related data, and working demo credentials for both roles at review time (PRD §8.3).
 
 ### 4.4 Localization
@@ -206,17 +210,45 @@ These come from settled product decisions (PRD §3.2.4, §6.9). They are cheap t
 
 ---
 
+## 4.9 Component library presentation — CONFIRMED
+
+**[C]** Every component group in the Figma library follows one layout:
+
+| Left | Right |
+| --- | --- |
+| Documentation sidebar | Component gallery |
+| Overview, Usage Rules, Variants & Hierarchy, Accessibility, Focus & Disabled Behavior, Technical Notes / Known Limitations | Main Component Sets, variant matrices, configurations, icon and localisation examples, short captions |
+
+**[C]** Prose belongs in the sidebar, not under the components. No large usage-rule cards beneath a component set when the text fits in the sidebar, and the same text never appears in both places.
+
+**[C]** Sidebar: white surface, `radius/xl` (20), auto layout, height hugging its content, no decorative shadows, consistent padding. Headings use the existing type scale; documentation never introduces new application typography.
+
+**[C]** Detail that does not fit the sidebar goes to `docs/design-system/<component>.md` in the repository, and the sidebar points to it.
+
+**[A]** Adapt the documentation headings to each component group rather than copying the Button matrix literally — a Checkbox needs different sections from a Card.
+
+---
+
 ## 5. Repository layout
 
-**[O]** Not decided; depends on §3. Current contents:
+**[O]** The application layout is not decided; it depends on §3. Current contents:
 
 ```
-README.md     product context — source of truth
-PRD.md        product requirements
-CLAUDE.md     this file
+README.md              product context — source of truth
+PRD.md                 product requirements
+CLAUDE.md              this file
+RESEARCH_PLAN.md       hypotheses, interview guide, decision rules
+.gitignore             secrets, macOS noise, future build output
+brand/                 brand kit as delivered — logos, app icons, splash,
+                       app store concepts, brandbook, colour tokens
+docs/design-system/    component reference, written as components are built
 ```
 
-**[A]** Proposed, pending the stack decision:
+**[C]** The repository is live at **github.com/LanaMorozova/Trenumi** (private). GitHub and the Figma file "Coach" are the two sources of truth for current state: documentation and tokens in the repository, components and their visual documentation in Figma.
+
+**[C]** `brand/` is named as it arrived on disk, including the nested `brand/brand/`. Do not rename it without asking.
+
+**[A]** Still proposed, pending the stack decision:
 
 ```
 apps/mobile/        iOS + Android application
@@ -224,10 +256,9 @@ apps/landing/       marketing landing page
 packages/shared/    shared types, validation, domain logic (if the stack allows)
 services/api/       backend, if a custom backend is chosen
 docs/adr/           architecture decision records
-docs/design/        flows, wireframes, UI specs
 ```
 
-Do not create these directories yet.
+Do not create these directories yet. `docs/design-system/` is the exception already made: it holds the long-form technical reference for components that exist in Figma, which does not depend on the stack.
 
 ---
 
