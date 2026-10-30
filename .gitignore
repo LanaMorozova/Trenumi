@@ -1,0 +1,52 @@
+# --- Secrets: never commit, in any form -------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.keystore
+*.jks
+*.mobileprovision
+**/credentials*
+**/secrets*
+service-account*.json
+google-services.json
+GoogleService-Info.plist
+
+# --- macOS / editors ---------------------------------------------------------
+.DS_Store
+**/.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# --- Logs and local scratch --------------------------------------------------
+*.log
+npm-debug.log*
+yarn-error.log*
+.tmp/
+tmp/
+*.local
+
+# --- Dependencies and build output -------------------------------------------
+# The stack is still undecided (CLAUDE.md §3). These entries exist so that the
+# first build of whatever is chosen cannot accidentally commit its artifacts.
+node_modules/
+.pnp.*
+dist/
+build/
+coverage/
+.expo/
+.next/
+.turbo/
+*.tsbuildinfo
+Pods/
+.gradle/
+DerivedData/

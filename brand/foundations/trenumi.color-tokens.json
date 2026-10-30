@@ -1,0 +1,122 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "Trenumi color tokens. Synchronised with the Figma Design System Foundations (4 variable collections) on 2026-10-28. Primitives are raw values; semantic tokens alias them and carry light/dark modes. Brand colors #0B0515, #D9FF00, #FFFFFF and #F4F4F4 are unchanged from the approved Brand Kit.",
+  "primitive": {
+    "brand": {
+      "ink":  { "$type": "color", "$value": "#0B0515", "$description": "Brand Kit — approved" },
+      "lime": { "$type": "color", "$value": "#D9FF00", "$description": "Brand Kit — approved primary accent" }
+    },
+    "neutral": {
+      "0":   { "$type": "color", "$value": "#FFFFFF", "$description": "Brand Kit" },
+      "50":  { "$type": "color", "$value": "#F4F4F4", "$description": "Brand Kit" },
+      "200": { "$type": "color", "$value": "#E5E5E5", "$description": "Decorative border, disabled control background" },
+      "400": { "$type": "color", "$value": "#A3A3A3", "$description": "Navigation inactive, dark secondary text" },
+      "500": { "$type": "color", "$value": "#858585", "$description": "Interactive border (light) — 3.35:1 on canvas, 3.69:1 on surface" },
+      "550": { "$type": "color", "$value": "#767676", "$description": "Disabled foreground (light) — min 3.61:1 across canvas, surface and #E5E5E5" },
+      "600": { "$type": "color", "$value": "#6B6B6B", "$description": "Secondary text (light) — 4.85:1 on canvas, 5.33:1 on surface" }
+    },
+    "dark": {
+      "400": { "$type": "color", "$value": "#857F97", "$description": "Disabled foreground (dark) — min 3.51:1 across dark surfaces" },
+      "500": { "$type": "color", "$value": "#767088", "$description": "Interactive border (dark) — min 3.51:1" },
+      "700": { "$type": "color", "$value": "#332B40", "$description": "Decorative border, disabled control background (dark)" },
+      "800": { "$type": "color", "$value": "#221B2E", "$description": "Elevated surface and navigation (dark)" },
+      "900": { "$type": "color", "$value": "#15101F", "$description": "Surface (dark)" }
+    },
+    "success": {
+      "50":  { "$type": "color", "$value": "#E8F5EC" },
+      "400": { "$type": "color", "$value": "#4ADE80", "$description": "Dark-mode foreground" },
+      "600": { "$type": "color", "$value": "#0F7A3D", "$description": "Light-mode foreground — 4.93:1 on canvas" }
+    },
+    "warning": {
+      "50":  { "$type": "color", "$value": "#FDF3E2" },
+      "400": { "$type": "color", "$value": "#FBBF24" },
+      "600": { "$type": "color", "$value": "#9A5B00", "$description": "4.93:1 on canvas" }
+    },
+    "error": {
+      "50":  { "$type": "color", "$value": "#FCEAEA" },
+      "400": { "$type": "color", "$value": "#F87171" },
+      "600": { "$type": "color", "$value": "#C62828", "$description": "5.11:1 on canvas" }
+    },
+    "info": {
+      "50":  { "$type": "color", "$value": "#E8EEFC" },
+      "400": { "$type": "color", "$value": "#60A5FA" },
+      "600": { "$type": "color", "$value": "#1D4ED8", "$description": "6.09:1 on canvas" }
+    }
+  },
+  "semantic": {
+    "$description": "Each token carries a light and a dark value. Values reference primitives by path.",
+    "bg": {
+      "canvas":  { "$type": "color", "light": "{primitive.neutral.50}",  "dark": "{primitive.brand.ink}" },
+      "overlay": { "$type": "color", "light": "rgba(11,5,21,0.40)",      "dark": "rgba(11,5,21,0.60)" }
+    },
+    "surface": {
+      "default":  { "$type": "color", "light": "{primitive.neutral.0}", "dark": "{primitive.dark.900}" },
+      "elevated": { "$type": "color", "light": "{primitive.neutral.0}", "dark": "{primitive.dark.800}" }
+    },
+    "text": {
+      "primary":   { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.neutral.0}" },
+      "secondary": { "$type": "color", "light": "{primitive.neutral.600}", "dark": "{primitive.neutral.400}" },
+      "inverse":   { "$type": "color", "light": "{primitive.neutral.0}",   "dark": "{primitive.brand.ink}" },
+      "disabled":  { "$type": "color", "light": "{primitive.neutral.550}", "dark": "{primitive.dark.400}" },
+      "on-accent": { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.brand.ink}" }
+    },
+    "icon": {
+      "primary":   { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.neutral.0}" },
+      "secondary": { "$type": "color", "light": "{primitive.neutral.600}", "dark": "{primitive.neutral.400}" },
+      "disabled":  { "$type": "color", "light": "{primitive.neutral.550}", "dark": "{primitive.dark.400}" },
+      "on-accent": { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.brand.ink}" }
+    },
+    "border": {
+      "subtle":      { "$type": "color", "light": "{primitive.neutral.200}", "dark": "{primitive.dark.700}" },
+      "interactive": { "$type": "color", "light": "{primitive.neutral.500}", "dark": "{primitive.dark.500}" },
+      "focus":       { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.brand.lime}" }
+    },
+    "action": {
+      "primary":     { "bg": { "light": "{primitive.brand.ink}",   "dark": "{primitive.brand.lime}" },
+                       "fg": { "light": "{primitive.neutral.0}",   "dark": "{primitive.brand.ink}" } },
+      "secondary":   { "bg":     { "light": "{primitive.neutral.0}",   "dark": "{primitive.dark.800}" },
+                       "fg":     { "light": "{primitive.brand.ink}",   "dark": "{primitive.neutral.0}" },
+                       "border": { "light": "{primitive.neutral.500}", "dark": "{primitive.dark.500}" } },
+      "destructive": { "bg": { "light": "{primitive.error.600}", "dark": "{primitive.error.400}" },
+                       "fg": { "light": "{primitive.neutral.0}", "dark": "{primitive.brand.ink}" } },
+      "disabled":    { "bg": { "light": "{primitive.neutral.200}", "dark": "{primitive.dark.700}" },
+                       "fg": { "light": "{primitive.neutral.550}", "dark": "{primitive.dark.400}" } }
+    },
+    "nav": {
+      "bg":                { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.dark.800}" },
+      "selected-bg":       { "$type": "color", "light": "{primitive.brand.lime}",  "dark": "{primitive.brand.lime}" },
+      "selected-fg":       { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.brand.ink}" },
+      "unselected-fg":     { "$type": "color", "light": "{primitive.neutral.400}", "dark": "{primitive.neutral.400}" }
+    },
+    "input": {
+      "bg":           { "$type": "color", "light": "{primitive.neutral.0}",   "dark": "{primitive.dark.900}" },
+      "border":       { "$type": "color", "light": "{primitive.neutral.500}", "dark": "{primitive.dark.500}" },
+      "border-focus": { "$type": "color", "light": "{primitive.brand.ink}",   "dark": "{primitive.brand.lime}" },
+      "placeholder":  { "$type": "color", "light": "{primitive.neutral.600}", "dark": "{primitive.neutral.400}" }
+    },
+    "focus": {
+      "ring": { "$type": "color", "light": "{primitive.brand.ink}", "dark": "{primitive.brand.lime}" }
+    },
+    "status": {
+      "success": { "fg": { "light": "{primitive.success.600}", "dark": "{primitive.success.400}" },
+                   "bg": { "light": "{primitive.success.50}",  "dark": "{primitive.dark.900}" },
+                   "border": { "light": "{primitive.success.600}", "dark": "{primitive.success.400}" } },
+      "warning": { "fg": { "light": "{primitive.warning.600}", "dark": "{primitive.warning.400}" },
+                   "bg": { "light": "{primitive.warning.50}",  "dark": "{primitive.dark.900}" },
+                   "border": { "light": "{primitive.warning.600}", "dark": "{primitive.warning.400}" } },
+      "error":   { "fg": { "light": "{primitive.error.600}",   "dark": "{primitive.error.400}" },
+                   "bg": { "light": "{primitive.error.50}",    "dark": "{primitive.dark.900}" },
+                   "border": { "light": "{primitive.error.600}",   "dark": "{primitive.error.400}" } },
+      "info":    { "fg": { "light": "{primitive.info.600}",    "dark": "{primitive.info.400}" },
+                   "bg": { "light": "{primitive.info.50}",     "dark": "{primitive.dark.900}" },
+                   "border": { "light": "{primitive.info.600}",    "dark": "{primitive.info.400}" } }
+    }
+  },
+  "$rules": [
+    "Lime #D9FF00 is a background color on light surfaces, never text or icon: 1.05:1 on #F4F4F4, 1.15:1 on #FFFFFF. There is deliberately no text/accent token.",
+    "Use dark text on lime, never white.",
+    "White surfaces sit on a grey canvas at 1.10:1 — cards need border/subtle or a shadow to read as separate objects.",
+    "Dark floating navigation sits on the dark canvas at 1.21:1 — same requirement.",
+    "Disabled tokens are exempt from WCAG 1.4.3 and 1.4.11, but still clear at min 3.61:1 (light) and 3.51:1 (dark)."
+  ]
+}
