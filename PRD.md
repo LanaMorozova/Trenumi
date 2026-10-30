@@ -959,7 +959,9 @@ Carried over from README §7, expanded with impact and a proposed default where 
 | 2026-10-30 | Accent button carries a 1px dark border in light mode only — lime on white is 1.15:1; in dark the token resolves to transparent | docs/design-system/buttons.md §2 |
 | 2026-10-30 | Button labels are **Manrope Medium 500** via `Label/SM` and `Label/MD`; `Body/*` stays Regular 400 for everything else | CLAUDE.md §4.3 |
 | 2026-10-30 | Library presentation standard: documentation in the left sidebar, components and examples on the right | CLAUDE.md §4.9 |
-| 2026-10-30 | Lucide `INSTANCE_SWAP` discards icon colour bindings — interim re-bind procedure in force; mask + colour plate **proposed, not implemented** | docs/design-system/buttons.md §5 |
+| 2026-10-30 | Lucide `INSTANCE_SWAP` discards icon colour bindings; **fixed** by Mask + Colour Plate, migrated across all 160 icon slots and verified | docs/design-system/buttons.md §5 |
+| 2026-10-30 | Mask + Colour Plate is a **Figma-only** workaround; in application code icon colour binds to the semantic token directly | docs/design-system/buttons.md §5 |
+| 2026-10-30 | Library layout applied to every section: documentation sidebar left, components right; `Proposals / Stage B` removed, QA regrouped as `Internal / QA` | CLAUDE.md §4.9 |
 | 2026-10-28 | Both trainer and client may record results; entries keyed by author, neither overwrites. **Which entry leads on disagreement is PROPOSED, not approved** | §6.6.1, FR-PRO-09/10 |
 | 2026-10-28 | Critical notifications delivered individually; client activity batched into a digest | FR-NOT-09/10 |
 | 2026-10-28 | **Simplified:** one client-owned goal field; trainer keeps experience level + free-text notes only | §3.4, FR-CLI-02 |

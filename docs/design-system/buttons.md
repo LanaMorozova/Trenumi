@@ -145,27 +145,46 @@ A healthy slot is still named `Icon Leading` or `Icon Trailing`. After a swap it
 
 `resetOverrides()` followed by re-applying the saved properties re-runs the swap, so the standard "clean up stale overrides" move re-breaks every icon it touches. This is why the black-icon bug kept returning after each repair.
 
-### Interim procedure — in force now
+### Permanent fix — IMPLEMENTED, October 30, 2026
 
-After any icon swap:
+The colour now lives on a layer that is never swapped. Every icon slot has this structure:
 
-1. Re-bind the glyph stroke to the slot foreground token — `action/<style>/fg`, `text/primary` for Ghost, `action/disabled/fg` when `State=Disabled`.
-2. Clear the wrapper fill.
-3. Show the icon through its boolean **property**, not by writing `.visible` on the child — writing `.visible` directly detaches the layer from its property reference.
+```
+Icon Slot   FRAME, clipsContent, boolean `visible` property
+├─ Glyph    FRAME, isMask: true          ← contributes shape only
+│  └─ Lucide  INSTANCE                    ← the INSTANCE_SWAP target
+└─ Colour plate  RECTANGLE                ← fill bound to a semantic token
+```
 
-All current instances were repaired this way: 270 paints across 86 instances, verified at zero raw paints.
+The mask is safe precisely because the source wrapper fill is switched off, so it reads the stroke alpha rather than a solid 24×24 block. The swap target is the nested `Lucide` instance, so replacing it never touches the plate, and the plate is what carries the colour.
 
-### Proposed permanent fix — NOT IMPLEMENTED
+**The mask must be the Glyph frame, not the swappable instance.** Setting `isMask` directly on the instance does not survive a swap — that was the first thing the pilot got wrong.
 
-Move the colour onto a layer that is never swapped:
+#### Migration result
 
-- The glyph becomes a mask contributing only its shape. This is safe precisely because the wrapper fill is switched off, so the mask is the stroke alpha and not a 24×24 block.
-- A colour plate bound to the variant foreground token sits in the same slot, beneath the mask.
-- The `INSTANCE_SWAP` property moves onto the nested glyph.
+All **160 icon slots** migrated:
 
-Tested on the components page: after swapping the glyph from `plus` to `trash-2`, the plate kept its binding and the icon rendered in the bound colour rather than black.
+| Component set | Slots | Icon size |
+| --- | --- | --- |
+| Button | 120 (60 variants × 2) | 20 px at SM, 24 px at MD and LG |
+| Icon Button | 24 | 20 / 24 px |
+| Text Field | 16 (8 variants × 2) | 20 px |
 
-**Status: proposed.** Cost is restructuring the icon slots in 92 variants — 60 Button, 24 Icon Button, 8 Text Field. Decide before the library grows further; every component added first is another one to migrate.
+Verified after migration: 0 legacy slots, 0 unbound colour plates, 0 missing property references, 0 wrong mask orderings, 0 raw visible paints across 143 instances. Button heights unchanged at 40 / 48 / 56.
+
+A live swap test ran four consecutive glyph changes — `plus → trash-2 → pencil → heart → plus`. The plate held `action/primary/fg` at every step and the slot kept its name, so the rename tell-tale is gone too.
+
+#### Plate tokens
+
+| Context | Token |
+| --- | --- |
+| Button / Icon Button, by style | `action/primary/fg`, `action/secondary/fg`, `text/primary` (Ghost), `action/destructive/fg`, `action/accent/fg` |
+| Any `State=Disabled` | `action/disabled/fg` |
+| Text Field | `text/primary`, or `text/disabled` when disabled |
+
+#### This is a Figma-only workaround
+
+The mask and the colour plate exist to work around how Figma handles instance swapping. **They have no equivalent in application code.** In the app, bind the icon's colour to the same semantic token directly — an SVG with `currentColor` or an explicit token reference. Do not reproduce a mask-and-plate structure in the codebase.
 
 ---
 
