@@ -1,6 +1,6 @@
 # CLAUDE.md — Working instructions for Trenumi
 
-**Version:** 0.7 — October 30, 2026
+**Version:** 0.9 — October 30, 2026
 **Project phase:** Product discovery and MVP definition. **No application code is to be written yet.**
 
 ---
@@ -45,7 +45,12 @@ Read in this order. On conflict, the higher document wins.
 1. **[README.md](README.md)** — product context and confirmed decisions. **Primary source of truth.** Do not edit without asking.
 2. **[PRD.md](PRD.md)** — requirements, flows, permissions, acceptance criteria, open decisions.
 3. **CLAUDE.md** (this file) — how to work in this repository.
-4. **Figma file "Coach"** — UX research and product discovery (competitor analysis, personas, journeys, information architecture), in English. The **Design System page is never modified**. Research informs decisions; it does not override README or PRD.
+4. **Figma file "Trenumi"** (`gYz2eydZiQ5ezFcutqS6DL`), in English. It now holds three different kinds of material, and they have different rules:
+   - **Research pages** — competitor analysis, personas, journeys, IA. **Read-only.** They inform decisions; they do not override README or PRD.
+   - **`🧩 UI Kit`** — the design system: variables, text styles, Main Components and their documentation sidebars. This is where components are built and changed.
+   - **`📱 Mobile App`** — product screens and their UI states. No Main Components live here.
+
+   Product screens are never built on the UI Kit page, and components are never built on the Mobile App page.
 
 If a requirement is not in README.md or PRD.md, it does not exist. Do not infer it from a competitor, a convention, or a plausible-sounding user need.
 
@@ -53,9 +58,9 @@ If a requirement is not in README.md or PRD.md, it does not exist. Do not infer 
 
 ## 2. Non-negotiable working rules
 
-1. **Do not implement the application yet.** Architecture, user flows, and UI/UX are reviewed before any code. If asked to build something, confirm that the review has happened.
+1. **Do not implement the application yet.** Architecture, user flows, and UI/UX are reviewed before any code. If asked to build something, confirm that the review has happened. The learning prototype in §4.11 is the one exception, and it is not product code.
 2. **Do not invent requirements.** No product behavior, business rule, pricing, limit, or copy that is not in README.md or PRD.md.
-3. **Do not make major technical decisions alone.** Stack, database, hosting, auth provider, payment provider, state management, navigation library, analytics, video hosting — all require explicit approval. Propose options with trade-offs; wait for a decision.
+3. **Do not make major technical decisions alone.** Stack, database, hosting, auth provider, payment provider, state management, navigation library, analytics, media hosting — all require explicit approval. Propose options with trade-offs; wait for a decision.
 4. **Label everything.** Use the PRD's labels in any document you write or edit: **[C]** confirmed, **[A]** assumption, **[O]** open. Never present an assumption as a requirement.
 5. **Surface, don't resolve.** When you hit an open decision mid-task, do everything that does not depend on it, then state the question. Do not pick a default silently.
 6. **Never overwrite README.md** without asking first.
@@ -80,7 +85,7 @@ To be decided, with proposals to be presented at the architecture review:
 | Backend (managed BaaS vs. custom API) | **[O]** |
 | Database | **[O]** |
 | Authentication | **[O]** |
-| Media/video hosting and delivery | **[O]** — also a licensing question, PRD D1 |
+| Illustration asset hosting and delivery | **[O]** — also a licensing question, PRD D1. Video hosting is **out of the MVP**, so this is image delivery only |
 | Push notifications | **[O]** |
 | Payments / subscriptions (incl. app-store IAP policy, PRD §8.3) | **[O]** |
 | Landing page stack and hosting | **[O]** |
@@ -97,7 +102,7 @@ Constraints the stack must satisfy (derived from confirmed requirements, so thes
 - One active trainer per client in the MVP, enforced as an invariant, with the model still able to admit several later. **[C]** See §4.
 - Full interface localization into Ukrainian and English for both roles, plus a bilingual landing page, with new languages addable without touching screen code. **[C]**
 - Per-locale content for the exercise library, separate from UI strings. **[C]**
-- Streaming video playback on mobile. **[C]**
+- Display **static illustrations** for the exercise library, and open a trainer's external video link out of the app. **No video hosting, encoding, storage or in-app player in the MVP** — README §61, PRD FR-EX-01 / FR-EX-08, and FR-EX-09 withdrawn. **[C]**
 - Push-capable. **[C]**
 - Trainer-side editing of structured, nested, reorderable content (programs → days → exercises) — the most demanding UI in the product.
 
@@ -139,7 +144,7 @@ These come from settled product decisions (PRD §3.2.4, §6.9). They are cheap t
 | MD | 48 | 18 | Mobile + desktop — smallest standard size on mobile |
 | LG | 56 | 20 | Mobile + desktop |
 
-**[C]** Button labels are **Manrope Medium 500**, through the text styles `Label/SM` (14/20) and `Label/MD` (16/24). These differ from `Body/SM` and `Body/MD` in weight only. This is a rule for buttons and control labels, not a change to application typography: the `Body/*` styles stay Regular 400 and are used by everything else.
+**[C]** Button labels are **Manrope SemiBold 600**, through the text styles `Label/SM` (14/20) and `Label/MD` (16/24). These differ from `Body/SM` and `Body/MD` in weight only. This is a rule for buttons and control labels, not a change to application typography: the `Body/*` styles stay Regular 400 and are used by everything else.
 
 **[A]** Figma picks a component set's default variant by canvas position and the plugin API cannot override it, so the Button set reports `Size=SM` as its technical default. That is a Figma artefact, not the product rule: on mobile, set `Size=MD` explicitly. Full reasoning in `docs/design-system/buttons.md`.
 
@@ -229,6 +234,74 @@ These come from settled product decisions (PRD §3.2.4, §6.9). They are cheap t
 
 ---
 
+## 4.10 Screen layout rhythm — CONFIRMED
+
+**[C]** Every Trenumi screen is built from **section containers**. A section is one Auto Layout frame that holds its own heading *and* its own content. A heading is never a loose sibling of the block it names, because then the eye attaches it to whatever sits above it.
+
+**[C]** Three gaps, and only three:
+
+| Gap | Where | Token |
+| --- | --- | --- |
+| 12 | Section heading → section content | `space/12` |
+| 12 | Between cards of the same kind inside a section | `space/12` |
+| 24 | Between one section and the next | `space/24` |
+
+**[C]** 16 (`space/16`) is the default *internal* padding of a card, where the card's own component allows it. It is a card value, not a screen value, and it does not take part in the rhythm above.
+
+**[C]** The between-section gap is always larger than the heading-to-content gap. That difference is the whole mechanism: it is what makes a heading read as belonging to the block below it.
+
+**[C]** A section heading's **visual height is its title** — 24 — even when it carries a control on the right. The control is laid out at its own content height and centred on the title; its 48 touch target is a transparent hit area that overflows into the surrounding gaps. A control that is 48 *in the layout* inflates the heading and doubles the apparent gap beneath it.
+
+**[C]** Every gap, padding and radius is bound to a Figma Variable. A typed number that happens to equal a token is a defect, not a shortcut — it survives a token change and silently drifts.
+
+**[C]** Do not create duplicate tokens. A value no token carries is a token decision, not a local override.
+
+### Navigation arrows — CONFIRMED
+
+**[C]** Two arrows, one meaning each, across the whole product:
+
+| Arrow | Container | Size | Meaning |
+| --- | --- | --- | --- |
+| `chevron-right` | none | 16 | every internal navigation and drill-down |
+
+**[C]** One arrow for internal navigation across the whole product: a bare `chevron-right` at 16, bound to the surface's secondary foreground. It applies to every clickable card or row that opens another screen — quick actions, KPI cards, list rows, inline links.
+
+**[C]** Arrows with a meaning of their own are untouched: `chevron-down` for dropdowns, back arrows, and external-link arrows keep their own icons. This rule is about internal navigation, not about every arrow in the product.
+
+**[A]** The earlier rule giving Quick Actions a circled `arrow-up-right` was withdrawn on October 30, 2026.
+
+**[C]** An element that is not tappable gets no arrow at all. A decorative arrow is a false affordance.
+
+**[C]** Where a whole card is the tap target, the arrow is an indicator and not a separate control. Its own size is irrelevant to the 48 x 48 rule in §4.3; the card is what must satisfy it.
+
+---
+
+## 4.11 Learning prototype sandbox — CONFIRMED
+
+**[C]** A separate learning UI prototype is built during a four-week course. It is **not** the Trenumi MVP, and it must not become one by accident.
+
+| | Product | Learning prototype |
+| --- | --- | --- |
+| Repository | `LanaMorozova/Trenumi` | `trenumi-ui-lab` — separate, **not created yet** |
+| Holds | README, PRD, design documentation, future production code | course exercises and UI experiments |
+| Stack | **[O]** undecided, §3, needs approval | React + TypeScript + Vite + Storybook, Figma design tokens, GitHub PRs, live deployment |
+| Status | the product | teaching material |
+
+**[C]** The prototype's stack is **not** an architecture decision for Trenumi. §3 stays open and still requires approval; nothing in `trenumi-ui-lab` sets a precedent for the MVP.
+
+**[C]** The prototype consumes the real Trenumi design system — variables, typography, colours, spacing, radius, components — through Figma design tokens. It may **read** the design system; it may not reshape it. **Do not change a Main Component in Figma for the prototype's sake without asking.**
+
+**[C]** Constraints:
+
+- **No real client data, ever.** Fictional names only, as in the Dashboard demo data.
+- A limitation of the course project never changes a product requirement. If the prototype cannot do something, that is a fact about the prototype, not about Trenumi.
+- README.md and PRD.md are not edited because of the prototype.
+- Rule 1 in §2 stands unchanged for the product: the architecture and UX review still gate production code.
+
+**[C]** As of October 30, 2026 the repository does not exist and no prototype code has been written. Ask before creating either.
+
+---
+
 ## 5. Repository layout
 
 **[O]** The application layout is not decided; it depends on §3. Current contents:
@@ -244,7 +317,7 @@ brand/                 brand kit as delivered — logos, app icons, splash,
 docs/design-system/    component reference, written as components are built
 ```
 
-**[C]** The repository is live at **github.com/LanaMorozova/Trenumi** (private). GitHub and the Figma file "Coach" are the two sources of truth for current state: documentation and tokens in the repository, components and their visual documentation in Figma.
+**[C]** The repository is live at **github.com/LanaMorozova/Trenumi** (private). It is the **product** repository. The learning prototype gets its own repository, `trenumi-ui-lab` (§4.11), which does not exist yet; course code never lands here. GitHub and the Figma file "Coach" are the two sources of truth for current state: documentation and tokens in the repository, components and their visual documentation in Figma.
 
 **[C]** `brand/` is named as it arrived on disk, including the nested `brand/brand/`. Do not rename it without asking.
 
@@ -311,7 +384,7 @@ Specifically:
 - Test behavior, not implementation details. A test that only restates the code earns nothing.
 
 ### Git
-- **[O]** Repository is not initialized yet. Ask before running `git init`.
+- **[C]** The repository is live: `github.com/LanaMorozova/Trenumi` (private), default branch `main`, remote `origin` configured.
 - **[A]** Conventional commits (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`). One logical change per commit.
 - **[A]** Branch per change, no direct commits to the default branch.
 - Do not commit or push unless asked.
@@ -342,15 +415,29 @@ Specifically:
 - Adding a feature, field, screen, or endpoint not traceable to a PRD requirement.
 - Anything touching pricing, legal text, privacy policy, or app-store declarations.
 - Committing, pushing, or publishing anything.
+- Creating the `trenumi-ui-lab` repository or writing any prototype code (§4.11).
+- Changing a Figma Main Component for the learning prototype's benefit (§4.11).
 
 ---
 
 ## 10. Current state
 
-- README.md — **[C]** v0.3. Updated October 28, 2026 with the single-active-trainer model and the localization requirement.
-- PRD.md — **[A]** draft v0.3, awaiting review. 102 numbered requirements.
-- CLAUDE.md — this file, v0.2. §3 and §5 remain placeholders until the stack is decided.
-- No code, no repository, no dependencies, no design assets.
+- README.md — **[C]** v0.8, October 29, 2026.
+- PRD.md — **[A]** v0.8, draft for review, October 29, 2026. 148 numbered FR/NFR requirements.
+- CLAUDE.md — this file, v0.8. §3 remains a placeholder until the stack is decided.
+- Coach Dashboard delivered in five states on `📱 Mobile App`, awaiting final approval. No other product screen is designed yet.
+
+### Design system — current state
+
+| | |
+| --- | --- |
+| Variable collections | `_Primitives` (Value) · `Semantic Colors` (Light / Dark) · `Sizes` (Mobile / Tablet / Desktop) · `Language` (en / uk) |
+| Text styles | `Caption/XS` · `Body/SM` · `Body/MD` · `Label/SM` · `Label/MD` · `Heading/SM·MD·LG` · `Display/SM·LG` |
+| Main components | 17 component sets — Button, Icon Button, Text Field, Textarea, Card, List Item, Checkbox, Radio, Switch, Chip, Badge, Bottom Navigation, Stat Card, Quick Action, Time Tab, Schedule Row, Avatar — plus the single `Notification Badge` component |
+| Repository reference | `docs/design-system/` — `buttons.md`, `section-layout.md`, `dashboard.md` |
+
+The repository files carry the measurements, the reasoning and the known limitations. **Do not restate component documentation here** — this table is an index, and the detail lives in `docs/design-system/`.
+- No application code and no dependencies. The repository is live (§5) and the brand kit and component library exist.
 
 ### Settled so far (PRD §14 Decision log)
 
@@ -363,6 +450,6 @@ Specifically:
 
 ### Still open before implementation
 
-P0 blockers from PRD §13: **#4** program scheduling model (weekly pattern vs. per-date sessions — the central modeling question), **#3** exercise parameters, **#9** exercise video sourcing and licensing, **#25** who produces the Ukrainian exercise library content, **#11** technical stack, **#1** invitation mechanism, **#2** pricing and trial-expiry behavior, **#10** notification channels, **#6** calendar statuses.
+P0 blockers from PRD §13: **#4** program scheduling model (weekly pattern vs. per-date sessions — the central modeling question), **#3** exercise parameters, **#9** exercise **illustration** sourcing and licensing (scope reduced October 28, 2026 — video removed from the MVP), **#25** who produces the Ukrainian exercise library content, **#11** technical stack, **#1** invitation mechanism, **#2** pricing and trial-expiry behavior, **#10** notification channels, **#6** calendar statuses.
 
 **Next gate:** review the PRD assumptions, close the P0 open decisions, then review user flows and UI/UX in Figma. Implementation starts only after that.
