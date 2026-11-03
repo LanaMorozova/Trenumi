@@ -1,6 +1,6 @@
 # Button — technical reference
 
-**Status:** Phase 1A complete. Applies to the `Button` and `Icon Button` component sets in the Figma file "Coach", page 🧩 Trenumi Components.
+**Status:** Phase 1A complete. Applies to the `Button` and `Icon Button` component sets in the Figma file "Coach", page 🧩 UI Kit.
 **Last updated:** October 30, 2026
 
 The Figma sidebar carries the short version of everything here. This file is the long form: the measurements, the reasoning, and the one unsolved problem.
@@ -36,12 +36,12 @@ Where a 1px border is present (Secondary in all states, Accent in light mode) th
 
 ### Typography
 
-Labels are **Manrope Medium 500**, through two dedicated text styles:
+Labels are **Manrope SemiBold 600**, through two dedicated text styles:
 
 | Style | Font | Size / line height | Used by |
 | --- | --- | --- | --- |
-| `Label/SM` | Manrope Medium | 14 / 20 | Size=SM |
-| `Label/MD` | Manrope Medium | 16 / 24 | Size=MD, Size=LG |
+| `Label/SM` | Manrope SemiBold | 14 / 20 | Size=SM |
+| `Label/MD` | Manrope SemiBold | 16 / 24 | Size=MD, Size=LG |
 
 These exist because `Body/SM` and `Body/MD` are Regular 400 by design and are applied to 277 other nodes in the file. Changing them would have restyled every one. `Label/*` differs from `Body/*` in weight only — same size, same line height.
 
