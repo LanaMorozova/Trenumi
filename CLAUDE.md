@@ -1,7 +1,19 @@
 # CLAUDE.md — Working instructions for Trenumi
 
-**Version:** 0.9 — October 30, 2026
+**Version:** 0.10 — November 4, 2026
 **Project phase:** Product discovery and MVP definition. **No application code is to be written yet.**
+
+---
+
+## Context
+
+Trenumi is a training-management product for personal trainers: workout programming, client management, progress tracking and subscriptions. Clients never sign up on their own — they arrive by trainer invitation, and every permission resolves through the trainer–client relationship, never through the client alone.
+
+It ships as **two products**: a mobile application for coaches and their clients (iOS + Android), and a marketing landing page that acquires trainers. There is no web dashboard and no web workout builder in the MVP (§4.6).
+
+It is **built by one person** — a product designer, not a professional engineer — entirely through Claude Code. Every proposal is judged on four axes, maintenance burden for one person included, not on product value alone (§0).
+
+Current phase: **product discovery and MVP definition. No application code is written yet**, and the technical stack is still open (§3).
 
 ---
 
@@ -417,6 +429,48 @@ Specifically:
 - Committing, pushing, or publishing anything.
 - Creating the `trenumi-ui-lab` repository or writing any prototype code (§4.11).
 - Changing a Figma Main Component for the learning prototype's benefit (§4.11).
+
+---
+
+## 9.1 What NOT to do — quick reference
+
+A digest of the hard prohibitions stated above, gathered in one place. Each line names the section that owns it; **where they differ, the section wins** — this list is a reminder, not a second source of truth.
+
+### Process
+- Do not write application code yet — architecture and UX are reviewed first (§2)
+- Do not invent requirements: if it is not in README.md or PRD.md, it does not exist (§1, §2)
+- Do not decide stack, database, hosting, auth or payment provider alone (§2, §3)
+- Do not present an assumption as confirmed — label everything [C] / [A] / [O] (§2)
+- Do not resolve an open question silently: do everything that does not depend on it, then ask (§2)
+- Do not edit or overwrite README.md without asking (§1, §2)
+- Do not commit or push unless asked (§7)
+
+### Scope
+- Do not build product functionality on the web — no dashboard, no workout builder in the MVP (§4.6)
+- Do not pull nutrition, meal plans, recipes, in-app chat, AI workout generation or full client-side logging into the MVP (§2)
+- Do not invent App Store or Google Play links — they do not exist until the apps are published (§4.6)
+- Do not assume a team: no "hand this to backend", no "QA will catch it" (§0)
+- Do not over-simplify into uselessness — simplicity is a means, not the goal (§0)
+
+### Data model and authorization
+- Do not put `trainer_id` on the client profile — the relationship is the entity (§4.1)
+- Do not key programs, sessions or progress by `client_id` alone (§4.1)
+- Do not trust a client-supplied `client_id`, `program_id` or `relationship_id` (§4.1)
+- Do not express access as `relationship.status == 'active'` — resolve it through the access rule (§4.2)
+- Do not infer entitlement from the trainer — a subscription belongs to a payer (§4.7)
+- Do not put health data, training values or free-text notes into an analytics event (§4.8)
+
+### Design
+- Do not type a number a token already carries — it is a defect, not a shortcut (§4.10)
+- Do not create a duplicate token: a value no token carries is a token decision (§4.10)
+- Do not leave a section heading as a loose sibling of the block it names (§4.10)
+- Do not build product screens on the UI Kit page, or components on the Mobile App page (§1)
+- Do not use SM spacing in the mobile app — it is desktop only (§4.3)
+- Do not hand-build dates, numbers, weekday or month names — format them per locale (§4.4)
+- Do not fall back to a raw key or an empty string on a missing translation (§4.4)
+
+### Language
+- Do not mix Ukrainian and English inside one document (§0.1)
 
 ---
 
