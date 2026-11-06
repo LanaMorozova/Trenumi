@@ -1036,6 +1036,9 @@ Carried over from README §7, expanded with impact and a proposed default where 
 | 2026-11-06 | Ukrainian greeting uses the **nominative**, not the vocative. Inflecting a name needs morphology this project will not build, and a wrong vocative reads worse than a plain nominative. Recorded on the `dashboard/greeting-morning` variable | docs/design-system/dashboard.md §6 |
 | 2026-11-06 | Three unused tab-bar tokens removed (`nav/selected/*`, `nav/unselected/*`); 127 spacing values and 29 radii bound to tokens that already carried the same value, with no visual change | docs/design-system/token-coverage.md §4.1 |
 
+| 2026-11-06 | Dark surface changed from `#15101f` to **`#1c1a22`**: the old value sat 1.08:1 from the canvas and read purple. Separation rises to 1.17:1 and the blue-green gap drops from 15 to 8. Changed on the primitive `color/dark/900`, so `surface/default`, `input/bg` and all four `status/*/bg` move with it — status text stays above 6.3:1 | docs/design-system/tokens.md |
+| 2026-11-06 | **[C] `Today's schedule` stays in the product** — confirmed November 6, 2026. The Dashboard therefore needs new PRD requirements for a trainer home screen and an hourly schedule, which in turn needs the booking question answered. Option 1 (drop the schedule from the MVP) is **withdrawn** | docs/design-system/dashboard.md §5.1 |
+
 **[A]** Superseded on the same day: an earlier draft of §3.2 assumed multiple simultaneous trainers with a Coach Switcher and a merged calendar. That is now a future release. Anything still describing a Coach Switcher, per-trainer filtering, or a cross-trainer matrix is stale and should be reported as a defect in this document.
 
 ## 15. Glossary

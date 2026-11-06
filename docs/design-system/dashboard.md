@@ -237,13 +237,16 @@ CLAUDE.md §8 rule 1 says a change names the PRD requirement it satisfies. For t
 
 `Today's schedule` is the sharper problem. FR-CWX-01 and FR-CWX-02 describe the **client's** calendar and today entry point, not a trainer's hourly view of their own day. An hourly trainer schedule implies booking, and booking is not in the confirmed MVP scope (PRD §6.2). It also sits downstream of open decision **#4**, the program scheduling model, which is **P0 BLOCKED**.
 
-**[O] This needs a decision before implementation, not before approval of the visual design.** Three ways out, in increasing cost:
+**[C] Decided November 6, 2026: `Today's schedule` stays in the product.** Dropping it was the cheap way out and it is off the table.
 
-1. Treat the Dashboard as the top of the Clients tab and drop `Today's schedule` until decision #4 closes. The KPI cards and quick actions then trace to FR-CLI-05 and FR-PRG-10 and need no new requirements.
-2. Write new requirements for a trainer home screen and for an hourly schedule, which means deciding whether Trenumi has booking at all.
-3. Keep the design as a target and mark it explicitly out of the MVP build.
+That makes the gap a **writing** job, not a design one. Two requirements do not exist yet and have to:
 
-Nothing here is resolved, and no requirement was invented to make the screen look traceable.
+- a **trainer home screen** — what it shows, and what it is the entry point to
+- an **hourly schedule** — which first requires answering whether Trenumi has booking at all, because an hourly view of a trainer's day presumes someone put clients into hours
+
+The second depends on open decision **#4** (program scheduling model), still P0 BLOCKED. The screen can be approved as a design before that lands; it cannot be built before it.
+
+**[O] Neither requirement is written yet, and none was invented to make the screen look traceable.**
 
 ---
 
