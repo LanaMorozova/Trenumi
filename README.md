@@ -1,13 +1,25 @@
-# Trenumi
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/logos/logo_horizontal_dark.png">
+  <img alt="Trenumi" src="brand/logos/logo_horizontal_light.png" width="560">
+</picture>
 
-*Working title adopted October 28, 2026 (previously "Fitness Coach App"). The repository directory name is unchanged.*
+**Workout management for personal trainers.** Build programs, assign them to clients, keep an exercise library and track progress — instead of juggling spreadsheets, documents and chat.
 
-**Product status:** MVP discovery / requirements definition  
-**Build model:** solo-built by one Product Designer using AI-assisted development — no engineering team  
-**Document version:** 0.8 — October 29, 2026  
-**Platforms:** iOS and Android mobile applications, plus a marketing landing page  
-**Languages:** Ukrainian (uk-UA) and English (en) — both in the MVP  
-**Primary market:** Personal gym trainers and online fitness trainers
+iOS and Android, in Ukrainian and English from the MVP. Designed and built solo by one product designer, AI-assisted.
+
+### Status
+
+The mobile app is in build, first release due December 2026. This repository holds the product and design work it is being built from.
+
+| | |
+| --- | --- |
+| This file | product definition — scope, users, commercial model, open decisions |
+| [`PRD.md`](PRD.md) | functional requirements, journeys, permissions, acceptance criteria |
+| [`RESEARCH_PLAN.md`](RESEARCH_PLAN.md) | discovery plan and competitor benchmarking |
+| [`brand/`](brand/) | logo lockups, app icons, colour tokens, UX/UI foundations |
+| [`docs/design-system/`](docs/design-system/) | component specs — states, variants, accessibility notes |
+
+Document version 0.8 — October 29, 2026.
 
 ## 1. Product overview
 
