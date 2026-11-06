@@ -369,7 +369,7 @@ Use these names consistently in documents, code, and UI copy. They are defined i
 Specifically:
 - Say **relationship**, not "client of trainer", when scoping permissions. A relationship is the permission boundary. **[A]**
 - A **template** is a `Program` with `is_template = true`, not a separate entity. **[A]**
-- A **session** is a dated instance a client sees; a **program day** is the authored definition. Do not conflate them. **[A]**
+- A **session** is a dated instance a client sees; a **program day** is the authored definition. Do not conflate them. **[A]** A session may also carry a **time**, set by the trainer (`FR-SCH-01`). The time is a property of the session — there is no separate appointment entity. **[C]**
 - "Workout" is user-facing copy, not a model name. Map it to `Session` or `ProgramDay` depending on context. As user-facing copy it is also a translated string, never a literal.
 - The client's **stated goal** (client-owned, on `ClientProfile`) and the trainer's **assessed goal** (on `TrainerAssessment`, relationship-scoped) are two different fields. Never collapse them. **[C]**
 - `Consent` has two independent grants: general profile and health information. Never one flag. **[C]**
@@ -495,7 +495,9 @@ A digest of the hard prohibitions stated above, gathered in one place. Each line
 - Coach Dashboard delivered on `📱 Mobile App`, awaiting final approval. No other product screen is designed yet.
 - **[C]** The five delivered states are content-volume states of the `Today's schedule` section, not lifecycle states: `Top of screen` (header, date, greeting, KPI, quick actions), `09:00 · 5 clients` (hour full), `10:00 · 2 clients` (hour partly booked), `11:00 · 50 clients` (overflow, capped at five rows with a `Showing 5 of 50 clients` line), `13:00 · no clients` (empty hour).
 - **[C]** Loading and error states designed November 6, 2026 — seven states in all. §8 rule 5 is satisfied for this screen.
-- **[O]** **No PRD requirement covers a trainer Dashboard.** KPI cards and quick actions trace partially to FR-CLI-05 and FR-PRG-10; `Today's schedule` traces to nothing and sits downstream of BLOCKED decision #4. A scope decision is needed before implementation — see `docs/design-system/dashboard.md` §5.1.
+- **[C]** The Dashboard now traces to PRD §6.4a (`FR-HOM-01..03`) and §6.4b (`FR-SCH-01..06`), written November 6, 2026.
+- **[C]** **Trainer schedule is in the MVP; clients do not book.** The trainer records when each client trains, and a scheduled time is a property of the session rather than a separate appointment. Client rescheduling with per-month limits, hourly capacity and a cutoff is a future release (`FR-SCH-10..14`).
+- **[C]** The schedule is **not** blocked on decision #4: a session time records when someone comes, not how a program repeats (`FR-SCH-05`).
 
 ### Design system — current state
 

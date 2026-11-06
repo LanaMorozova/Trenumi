@@ -455,6 +455,40 @@ Any requirement whose behavior depends on an **[O]** decision is marked `BLOCKED
 
 **Acceptance criteria — FR-PRG-11:** after a trainer edits a future session of an assigned program, a client opening that session sees the new content without reinstalling or re-accepting anything, and the client is notified per §6.7.
 
+### 6.4a Trainer home screen
+
+| ID | Requirement | Priority | Label |
+| --- | --- | --- | --- |
+| FR-HOM-01 | The app opens for a trainer on a home screen showing how many clients they have, how many have no current program, shortcuts to the two priority actions, and today's schedule. | P0 | [A] |
+| FR-HOM-02 | `Need a plan` counts connected clients with no currently assigned program, and opens that filtered client list. | P0 | [A] |
+| FR-HOM-03 | Every block on the home screen is an entry point. Nothing is created or edited on the home screen itself. | P0 | [A] |
+
+**Acceptance criteria — FR-HOM-02:** a client who has just been assigned a program leaves the `Need a plan` count on the trainer's next view of the home screen, without any manual refresh.
+
+### 6.4b Trainer schedule
+
+**[C] Decided November 6, 2026.** The trainer records when each client trains; this is one of the things a trainer currently keeps in their head or on paper. **Clients do not book.** Client-initiated rescheduling, per-month reschedule limits, hourly capacity and a reschedule cutoff are a **future release** — see FR-SCH-10 to FR-SCH-14.
+
+**[C] A scheduled time is a property of the session, not a separate record.** When a trainer gives Monday's Upper Body session a time of 09:00, the client sees one entry — `Monday, 09:00, Upper Body` — not a workout and an appointment side by side. There is no scheduling object without a session behind it.
+
+| ID | Requirement | Priority | Label |
+| --- | --- | --- | --- |
+| FR-SCH-01 | A trainer can give a client's session a time. The time belongs to the session, which is scoped to the relationship (§3.2.4). | P0 | [A] |
+| FR-SCH-02 | A trainer can add, change and clear the time on a session in their own schedule. | P0 | [A] |
+| FR-SCH-03 | The home screen shows today's scheduled sessions grouped by hour; selecting an hour shows the clients in it. | P0 | [A] |
+| FR-SCH-04 | An hour on the home screen shows at most five clients, then a count of the rest. The full schedule shows all of them. | P0 | [A] |
+| FR-SCH-05 | A session time is **independent of the program scheduling model** (decision #4): it records when someone comes, not what they do. The schedule is therefore not blocked on that decision. | P0 | [A] |
+| FR-SCH-06 | A client sees the time on their own sessions in their calendar (FR-CWX-01). | P0 | [A] |
+| FR-SCH-10 | A client can move one of their own sessions to a different hour. | — | [C] future |
+| FR-SCH-11 | A trainer sets how many times per month their clients may reschedule. | — | [C] future |
+| FR-SCH-12 | A trainer sets the maximum number of clients per hour; a full hour cannot be rescheduled into. | — | [C] future |
+| FR-SCH-13 | A trainer sets how close to the start time rescheduling is still allowed. | — | [C] future |
+| FR-SCH-14 | The capacity check runs server-side, so two clients cannot take the last place in the same hour at once. | — | [C] future |
+
+**Acceptance criteria — FR-SCH-05:** a trainer can schedule a client for an hour tomorrow whether or not decision #4 has been made, and nothing in the schedule changes meaning once it is.
+
+**[A] A no-show has no mechanic.** A client who does not come simply does not come; the session keeps its existing status set (FR-CWX-06).
+
 ### 6.5 Client workout experience
 
 | ID | Requirement | Priority | Label |
@@ -1038,6 +1072,12 @@ Carried over from README §7, expanded with impact and a proposed default where 
 
 | 2026-11-06 | Dark surface changed from `#15101f` to **`#1c1a22`**: the old value sat 1.08:1 from the canvas and read purple. Separation rises to 1.17:1 and the blue-green gap drops from 15 to 8. Changed on the primitive `color/dark/900`, so `surface/default`, `input/bg` and all four `status/*/bg` move with it — status text stays above 6.3:1 | docs/design-system/tokens.md |
 | 2026-11-06 | **[C] `Today's schedule` stays in the product** — confirmed November 6, 2026. The Dashboard therefore needs new PRD requirements for a trainer home screen and an hourly schedule, which in turn needs the booking question answered. Option 1 (drop the schedule from the MVP) is **withdrawn** | docs/design-system/dashboard.md §5.1 |
+
+| 2026-11-06 | **Trainer schedule CONFIRMED, IN SCOPE** — the trainer records when each client trains, which is a stated trainer pain point. Clients do **not** book. New sections §6.4a and §6.4b | FR-HOM-01..03, FR-SCH-01..06 |
+| 2026-11-06 | **A scheduled time is a property of the session**, not a separate appointment record. The client sees one entry, `Monday, 09:00, Upper Body`. No scheduling object exists without a session behind it | FR-SCH-01, §6 domain language |
+| 2026-11-06 | **The schedule is not blocked on decision #4.** A session time records when a client comes, not how programs repeat, so the trainer schedule can be specified and built while #4 is still open | FR-SCH-05 |
+| 2026-11-06 | Client rescheduling, per-month reschedule limits, hourly capacity, a reschedule cutoff and the server-side capacity check are **deferred to a future release** | FR-SCH-10..14 |
+| 2026-11-06 | **[A]** A no-show has no mechanic in the MVP — a client who does not come simply does not come | FR-SCH, FR-CWX-06 |
 
 **[A]** Superseded on the same day: an earlier draft of §3.2 assumed multiple simultaneous trainers with a Coach Switcher and a merged calendar. That is now a future release. Anything still describing a Coach Switcher, per-trainer filtering, or a cross-trainer matrix is stale and should be reported as a defect in this document.
 

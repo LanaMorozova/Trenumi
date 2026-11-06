@@ -221,34 +221,24 @@ Content runs 816–1182 px against 746 px of viewport above the floating navigat
 
 ---
 
-## 5.1 Traceability — and the gap
+## 5.1 Traceability
 
-CLAUDE.md §8 rule 1 says a change names the PRD requirement it satisfies. For this screen that is only half possible, and the half that is missing matters more than the half that works.
+| Block | Requirement |
+| --- | --- |
+| `My clients` KPI | FR-HOM-01, FR-CLI-05 |
+| `Need a plan` KPI | FR-HOM-02 |
+| `Add client` | FR-HOM-01, FR-CLI-01 |
+| `Create program` | FR-HOM-01, FR-PRG-10 |
+| `Today's schedule` | FR-SCH-03 |
+| the five-client cap and the overflow count | FR-SCH-04 |
+| time tabs | FR-SCH-03 |
+| nothing is editable on this screen | FR-HOM-03 |
 
-| Block | Requirement | Fit |
-| --- | --- | --- |
-| `My clients` KPI | FR-CLI-05 — a trainer sees a list of their clients with status | partial: the requirement is the list, not a count on a home screen |
-| `Need a plan` KPI | — | no requirement. A derived view of clients with no assigned program, adjacent to FR-PRG-10 |
-| `Add client` | FR-CLI-01 | entry point only |
-| `Create program` | FR-PRG-10 and the builder requirements | entry point only |
-| `Today's schedule` | — | **no requirement at all** |
+Written on November 6, 2026 as PRD §6.4a and §6.4b, after the screen was designed. That order is backwards and worth saying plainly: the Dashboard existed for a week with no requirement behind it, and the gap was found by auditing the screen against §8 rule 1 rather than by anyone noticing at the time.
 
-**There is no PRD requirement for a trainer Dashboard.** The word "dashboard" appears in the PRD three times, and every one of them is the admin analytics product (§9.1) or the explicit "no web dashboard" scope line. The trainer home screen was designed before it was specified.
+**The schedule is no longer blocked on decision #4.** The trainer writes the hour by hand, so a session time records *when someone comes*, not how a program repeats. FR-SCH-05 states this, and it is what makes the screen buildable while #4 is still open.
 
-`Today's schedule` is the sharper problem. FR-CWX-01 and FR-CWX-02 describe the **client's** calendar and today entry point, not a trainer's hourly view of their own day. An hourly trainer schedule implies booking, and booking is not in the confirmed MVP scope (PRD §6.2). It also sits downstream of open decision **#4**, the program scheduling model, which is **P0 BLOCKED**.
-
-**[C] Decided November 6, 2026: `Today's schedule` stays in the product.** Dropping it was the cheap way out and it is off the table.
-
-That makes the gap a **writing** job, not a design one. Two requirements do not exist yet and have to:
-
-- a **trainer home screen** — what it shows, and what it is the entry point to
-- an **hourly schedule** — which first requires answering whether Trenumi has booking at all, because an hourly view of a trainer's day presumes someone put clients into hours
-
-The second depends on open decision **#4** (program scheduling model), still P0 BLOCKED. The screen can be approved as a design before that lands; it cannot be built before it.
-
-**[O] Neither requirement is written yet, and none was invented to make the screen look traceable.**
-
----
+What the design assumed and the requirements now confirm: clients do not book. They will be able to move a session later (FR-SCH-10 to FR-SCH-14, future release), under limits the trainer sets — a monthly cap, an hourly capacity, a cutoff. None of that is in the MVP, and none of it is drawn.
 
 ## 6. Localization
 
