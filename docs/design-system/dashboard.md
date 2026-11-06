@@ -77,7 +77,7 @@ Two semantically distinct badges per row. Both are instances of the one `Badge` 
 
 The two actionable statuses deliberately do **not** share a colour: `Need a plan` is soft red because the client has no program at all, `Ending soon` is amber because the program exists and is simply running out. One is a gap, the other is a deadline.
 
-Both formats are the same neutral grey, on the same `badge/neutral/bg` and `text/secondary`: same height, padding, radius and type. `Online` was briefly a soft blue and was reverted on October 30, 2026 — with red and amber already in the row, a third hue made the list read as four competing signals. **Colour is reserved for what needs attention, not for telling formats apart.** `Self-guided` was removed on October 30, 2026: a session with no scheduled time with the trainer does not belong in an hourly schedule.
+Both formats are the same neutral grey, on the same `badge/neutral/bg` plate with `text/primary` text: same height, padding, radius and type. `Online` was briefly a soft blue and was reverted on October 30, 2026 — with red and amber already in the row, a third hue made the list read as four competing signals. **Colour is reserved for what needs attention, not for telling formats apart.** `Self-guided` was removed on October 30, 2026: a session with no scheduled time with the trainer does not belong in an hourly schedule.
 
 **Badge order is fixed: session format first, then program status.** Format is stable information and should read quieter; status is conditional and has to be noticed.
 
@@ -91,9 +91,19 @@ Labels are sentence case, like every other string in Trenumi.
 | --- | --- | --- |
 | `Need a plan` — `status/error/*` | 4.84:1 | 6.74:1 |
 | `Ending soon` — `status/warning/*` | 4.93:1 | 11.17:1 |
-| `In person` and `Online` — `badge/neutral/bg` | 4.68:1 | 5.34:1 |
+| `In person` and `Online` — `badge/neutral/bg` | 17.60:1 | 13.50:1 |
 
-The neutral badge originally measured **4.23:1** on `border/subtle` and missed AA for its 12px label. It now sits on `badge/neutral/bg`, a dedicated token at `#f0f0f0` in light mode, which lifts it to 4.68:1. A dedicated token was used rather than editing `border/subtle`, which also draws dividers and the Secondary button outline.
+### Quiet plate, full-contrast text
+
+The neutral badge went through three versions, and the last one is the rule worth keeping.
+
+It began as `text/secondary` on `border/subtle` — 4.23:1, which misses AA for a 12px label. Moving the plate to a dedicated `badge/neutral/bg` (`#f0f0f0` light) lifted it to 4.68:1 and passed. But passing was not the same as being right: `#f0f0f0` with `#6b6b6b` text is within 1.11:1 of the plate and 1.17:1 of the text that `action/disabled/*` uses, so the badge read as a **disabled control**.
+
+The cause was the mechanism, not the values. Disabled in this system is signalled by *low contrast on a neutral plate*, and the format badge was using the same signal to mean "less important". Same signal, two meanings.
+
+The fix is to make a badge quiet by **form**, not by contrast: keep the quiet plate, give it `text/primary`. 17.60:1 in light, 13.50:1 in dark. It now reads as information rather than as something switched off, and the hierarchy against the status badges comes from hue — colour still belongs only to what needs attention.
+
+**The rule this leaves behind: low contrast is reserved for disabled.** Anything that is merely secondary gets a quieter plate, a smaller size or less weight, never a weaker text colour on a filled plate. A sweep of every component set found the recipe nowhere else except where it belongs — the Disabled states of Button, Chip, Text Field and Textarea.
 
 ### Row internals
 
@@ -139,7 +149,7 @@ The count was a bare number beside the time, which read as part of the time. It 
 | | Fill | Digit |
 | --- | --- | --- |
 | Selected tab | `badge/count/bg-on-selected` | `action/primary/fg` |
-| Unselected tab | `badge/count/bg` | `text/secondary` |
+| Unselected tab | `badge/count/bg` | `text/primary` |
 
 Both tokens are **derived per mode**, not fixed colours: `bg-on-selected` is the tab's own foreground at low alpha, `bg` is `text/primary` at low alpha. In dark mode the selected tab is lime with dark text, so the pill correctly inverts to dark-on-lime without a second definition.
 
@@ -148,9 +158,9 @@ Both tokens are **derived per mode**, not fixed colours: `bg-on-selected` is the
 | Light | white 14% | ink 6% |
 | Dark | ink 14% | white 10% |
 
-### Why 6% and not 8% in light mode
+### Why the plate alpha is 6% in light mode
 
-The pill sits under the digit, so it is the digit's background and it changes the contrast:
+The pill sits under the digit, so it is the digit's background. When the digit was `text/secondary` the alpha was load-bearing and the window was narrow:
 
 | Alpha | Composite | `text/secondary` on it |
 | --- | --- | --- |
@@ -159,9 +169,9 @@ The pill sits under the digit, so it is the digit's background and it changes th
 | 8% | `#ebebec` | 4.48:1 — **fails** |
 | 10% | `#e7e6e8` | 4.28:1 — fails |
 
-12 px is not large text, so it needs 4.5:1. 8% misses it by 0.02, which is still a miss. Dark mode has more room and uses 10% (5.69:1) because a lighter plate is more visible against a dark surface.
+The digit is now `text/primary` for the same reason as the format badge — a muted digit on a plate read as a disabled tab — which measures **17.63:1** light and **14.35:1** dark and takes the contrast constraint off the alpha entirely. 6% and 10% are kept as the visual choice they now are: enough to separate the count from the hour, not enough to compete with it.
 
-Selected tab, for completeness: 14% gives **14.30:1** in light and **12.78:1** in dark.
+The selected tab was already correct and is unchanged: its digit is `action/primary/fg` on `badge/count/bg-on-selected`, **14.30:1** light and **12.78:1** dark.
 
 ### Geometry
 
@@ -208,6 +218,61 @@ This replaced a lime badge, which did need an outline — lime measured 1.05:1 a
 | 13:00 · no clients | 816 | −26 | compact empty state, strip scrolled to keep `13:00` in view |
 
 Content runs 816–1182 px against 746 px of viewport above the floating navigation, so the screen scrolls. In every scrolled state the schedule card ends at y 726, clearing the navigation at y 746, and a `space/64` bottom padding keeps the end of the list from being trapped under the navigation bar.
+
+---
+
+## 5.1 Traceability — and the gap
+
+CLAUDE.md §8 rule 1 says a change names the PRD requirement it satisfies. For this screen that is only half possible, and the half that is missing matters more than the half that works.
+
+| Block | Requirement | Fit |
+| --- | --- | --- |
+| `My clients` KPI | FR-CLI-05 — a trainer sees a list of their clients with status | partial: the requirement is the list, not a count on a home screen |
+| `Need a plan` KPI | — | no requirement. A derived view of clients with no assigned program, adjacent to FR-PRG-10 |
+| `Add client` | FR-CLI-01 | entry point only |
+| `Create program` | FR-PRG-10 and the builder requirements | entry point only |
+| `Today's schedule` | — | **no requirement at all** |
+
+**There is no PRD requirement for a trainer Dashboard.** The word "dashboard" appears in the PRD three times, and every one of them is the admin analytics product (§9.1) or the explicit "no web dashboard" scope line. The trainer home screen was designed before it was specified.
+
+`Today's schedule` is the sharper problem. FR-CWX-01 and FR-CWX-02 describe the **client's** calendar and today entry point, not a trainer's hourly view of their own day. An hourly trainer schedule implies booking, and booking is not in the confirmed MVP scope (PRD §6.2). It also sits downstream of open decision **#4**, the program scheduling model, which is **P0 BLOCKED**.
+
+**[O] This needs a decision before implementation, not before approval of the visual design.** Three ways out, in increasing cost:
+
+1. Treat the Dashboard as the top of the Clients tab and drop `Today's schedule` until decision #4 closes. The KPI cards and quick actions then trace to FR-CLI-05 and FR-PRG-10 and need no new requirements.
+2. Write new requirements for a trainer home screen and for an hourly schedule, which means deciding whether Trenumi has booking at all.
+3. Keep the design as a target and mark it explicitly out of the MVP build.
+
+Nothing here is resolved, and no requirement was invented to make the screen look traceable.
+
+---
+
+## 6. Localization
+
+Every static string on the screen is bound to a `Language` variable, so switching the collection's mode to `uk` renders the whole Dashboard in Ukrainian. 73 bindings, including the text properties of component instances, which Figma does allow a variable to drive.
+
+Four things are deliberately **not** bound, and each is a rule rather than an oversight:
+
+| Not bound | Why |
+| --- | --- |
+| the date | locale-formatted from a date, never a stored string (CLAUDE.md §4.4) |
+| the greeting | interpolates the trainer's name; a catalog entry holds the whole pattern, never a fragment to concatenate |
+| `No clients at 13:00` | interpolates a locale-formatted time |
+| `Showing 5 of 50 clients` | **plural** — see below |
+| client names and workout titles | trainer-authored content, not UI copy, and never machine-translated |
+
+### Two open questions the Ukrainian pass surfaced
+
+**[O] The greeting needs the vocative.** `Доброго ранку, Роксолано` is correct Ukrainian; `Роксолана` is the nominative most apps settle for. `dashboard/greeting-morning` holds the pattern, and the choice has to be made before the string ships — it cannot be patched later without touching every greeting.
+
+**[O] `Showing 5 of 50 clients` is plural-dependent.** The Figma variable holds a single mock form. In code it must go through a locale-aware plural API: Ukrainian has three categories, English two, and a `count === 1` branch is a bug (CLAUDE.md §4.4).
+
+### What the Ukrainian pass caught
+
+Checking the screen in Ukrainian, where the text is longest, found two real defects that English hid:
+
+- `Створіть нову або скопіюйте наявну` wrapped to two lines and left `наявну` alone on the second — a widow. Rewritten to `Нова або копія наявної`, which fits one line. The title above already says `Створити програму`, so the subtitle did not need to repeat it.
+- The schedule heading row measures **172 + 8 + 170 = 350** in Ukrainian: it fits the content width exactly, with nothing to spare. Nothing overflows today, but `Переглянути розклад` is a long link and the row has no slack left. Worth shortening if that line ever grows.
 
 ---
 

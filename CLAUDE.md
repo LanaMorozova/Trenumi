@@ -1,6 +1,6 @@
 # CLAUDE.md — Working instructions for Trenumi
 
-**Version:** 0.10 — November 4, 2026
+**Version:** 0.11 — November 6, 2026
 **Project phase:** Product discovery and MVP definition. **No application code is to be written yet.**
 
 ---
@@ -88,6 +88,8 @@ If a requirement is not in README.md or PRD.md, it does not exist. Do not infer 
 **[O]** README decision 11 / PRD NFR-10. Nothing here is chosen.
 
 Do not add a dependency, create a config file, initialize a package manifest, or scaffold a project directory until this section records an approved stack.
+
+**[C] One narrow exception, approved November 6, 2026: design-token tooling.** The repository holds `package.json`, `style-dictionary` as a dev dependency, `config.js` / `config.dark.js`, and the generated `src/styles/`. This is a **build tool for the design system**, not application architecture: it chooses no mobile framework, backend, database, auth or payment provider, and every row of the table below stays open. Nothing else may enter on its authority — a second dependency is a new decision, asked for separately.
 
 To be decided, with proposals to be presented at the architecture review:
 
@@ -323,11 +325,19 @@ README.md              product context — source of truth
 PRD.md                 product requirements
 CLAUDE.md              this file
 RESEARCH_PLAN.md       hypotheses, interview guide, decision rules
-.gitignore             secrets, macOS noise, future build output
+.gitignore             secrets, macOS noise, build output
 brand/                 brand kit as delivered — logos, app icons, splash,
                        app store concepts, brandbook, colour tokens
 docs/design-system/    component reference, written as components are built
 .claude/               agents and skills used in this repository
+
+tokens.json            design tokens exported from Figma (W3C DTCG)
+tokens.dark.json       dark-mode overrides, only what differs
+config.js              Style Dictionary — CSS variables + Tailwind preset
+config.dark.js         Style Dictionary — dark theme
+package.json           dev dependency on style-dictionary only (§3)
+src/styles/            GENERATED — tokens.css, tokens.dark.css,
+                       tailwind-preset.cjs. Never hand-edit.
 ```
 
 **[C]** The repository is live at **github.com/LanaMorozova/trenumi** and is **public** — it is part of the product owner's portfolio. It is the **product** repository. The learning prototype gets its own repository, `trenumi-ui-lab` (§4.11), which does not exist yet; course code never lands here. GitHub and the Figma file "Trenumi" are the two sources of truth for current state: documentation and tokens in the repository, components and their visual documentation in Figma.
@@ -423,7 +433,7 @@ Specifically:
 
 - Writing any application code before the architecture and design review.
 - Editing README.md.
-- Choosing or adding any dependency, framework, or third-party service.
+- Choosing or adding any dependency, framework, or third-party service. `style-dictionary` is the only one approved so far, for design tokens alone (§3).
 - Initializing git, a package manifest, or a project scaffold.
 - Resolving any **[O]** decision.
 - Adding a third language, or shipping a screen in only one language.
@@ -484,8 +494,8 @@ A digest of the hard prohibitions stated above, gathered in one place. Each line
 - CLAUDE.md — this file, **[C]** v0.10, November 4, 2026. §3 remains a placeholder until the stack is decided.
 - Coach Dashboard delivered on `📱 Mobile App`, awaiting final approval. No other product screen is designed yet.
 - **[C]** The five delivered states are content-volume states of the `Today's schedule` section, not lifecycle states: `Top of screen` (header, date, greeting, KPI, quick actions), `09:00 · 5 clients` (hour full), `10:00 · 2 clients` (hour partly booked), `11:00 · 50 clients` (overflow, capped at five rows with a `Showing 5 of 50 clients` line), `13:00 · no clients` (empty hour).
-- **[O]** **Loading and error states for the Dashboard are not designed.** The empty state exists; §8 rule 5 requires all three. Design them before the screen is approved.
-- **[O]** **No PRD requirement IDs are recorded for the Dashboard.** §8 rule 1 requires a change to name the requirement it satisfies, and there is nothing to name yet. Map the screen to its FR numbers before implementation.
+- **[C]** Loading and error states designed November 6, 2026 — seven states in all. §8 rule 5 is satisfied for this screen.
+- **[O]** **No PRD requirement covers a trainer Dashboard.** KPI cards and quick actions trace partially to FR-CLI-05 and FR-PRG-10; `Today's schedule` traces to nothing and sits downstream of BLOCKED decision #4. A scope decision is needed before implementation — see `docs/design-system/dashboard.md` §5.1.
 
 ### Design system — current state
 
@@ -497,7 +507,8 @@ A digest of the hard prohibitions stated above, gathered in one place. Each line
 | Repository reference | `docs/design-system/` — `buttons.md`, `section-layout.md`, `dashboard.md` |
 
 The repository files carry the measurements, the reasoning and the known limitations. **Do not restate component documentation here** — this table is an index, and the detail lives in `docs/design-system/`.
-- No application code and no dependencies. The repository is live (§5) and the brand kit and component library exist.
+- No application code. One dev dependency, `style-dictionary`, for the design-token pipeline (§3). The repository is live (§5) and the brand kit and component library exist.
+- **[C]** Design tokens are generated, not written: `tokens.json` is exported from Figma and `npm run tokens` produces `src/styles/`. Figma is the source of truth; a value edited in `src/styles/` is overwritten by the next build. See `docs/design-system/tokens.md`.
 
 ### Settled so far (PRD §14 Decision log)
 
