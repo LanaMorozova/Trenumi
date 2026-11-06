@@ -1,0 +1,24 @@
+{
+  "name": "trenumi",
+  "description": "Trenumi — product documentation and design tokens",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "tokens": "style-dictionary build && style-dictionary build --config config.dark.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LanaMorozova/trenumi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LanaMorozova/trenumi/issues"
+  },
+  "homepage": "https://github.com/LanaMorozova/trenumi#readme",
+  "devDependencies": {
+    "style-dictionary": "^5.8.0"
+  },
+  "private": true,
+  "version": "0.0.0",
+  "type": "module"
+}
