@@ -482,7 +482,10 @@ A digest of the hard prohibitions stated above, gathered in one place. Each line
 - README.md — **[C]** v0.8, October 29, 2026.
 - PRD.md — **[A]** v0.8, draft for review, October 29, 2026. 148 numbered FR/NFR requirements.
 - CLAUDE.md — this file, **[C]** v0.10, November 4, 2026. §3 remains a placeholder until the stack is decided.
-- Coach Dashboard delivered in five states on `📱 Mobile App`, awaiting final approval. No other product screen is designed yet.
+- Coach Dashboard delivered on `📱 Mobile App`, awaiting final approval. No other product screen is designed yet.
+- **[C]** The five delivered states are content-volume states of the `Today's schedule` section, not lifecycle states: `Top of screen` (header, date, greeting, KPI, quick actions), `09:00 · 5 clients` (hour full), `10:00 · 2 clients` (hour partly booked), `11:00 · 50 clients` (overflow, capped at five rows with a `Showing 5 of 50 clients` line), `13:00 · no clients` (empty hour).
+- **[O]** **Loading and error states for the Dashboard are not designed.** The empty state exists; §8 rule 5 requires all three. Design them before the screen is approved.
+- **[O]** **No PRD requirement IDs are recorded for the Dashboard.** §8 rule 1 requires a change to name the requirement it satisfies, and there is nothing to name yet. Map the screen to its FR numbers before implementation.
 
 ### Design system — current state
 
