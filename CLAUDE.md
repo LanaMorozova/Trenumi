@@ -144,7 +144,7 @@ These come from settled product decisions (PRD §3.2.4, §6.9). They are cheap t
 
 **[C]** Trenumi is designed and built to the **official Apple Human Interface Guidelines**, the **App Store Review Guidelines**, and **Android accessibility guidance** (Material / Android a11y). These are requirements, not references: an App Store rejection costs a release cycle, and a solo build has no slack for one.
 
-**[C]** Touch targets on mobile: **48 x 48 minimum** wherever practical. Apple asks 44x44 pt, Android asks 48x48 dp — targeting 48 satisfies both at once. This covers buttons, icon buttons, selection controls (checkbox, radio, switch) and interactive chips.
+**[C]** Touch targets on mobile: **48 x 48 minimum**, with no exceptions to be decided case by case. A target that cannot reach 48 is a design problem to raise, not a judgement call to make locally. Apple asks 44x44 pt, Android asks 48x48 dp — targeting 48 satisfies both at once. This covers buttons, icon buttons, selection controls (checkbox, radio, switch) and interactive chips.
 
 **[A]** The visual element may be smaller than its target: an icon of 20–24 px inside a 48 x 48 tappable area is correct and expected. Extend the target with padding or `hitSlop`, not by enlarging the graphic.
 
@@ -270,13 +270,13 @@ These come from settled product decisions (PRD §3.2.4, §6.9). They are cheap t
 
 ### Navigation arrows — CONFIRMED
 
-**[C]** Two arrows, one meaning each, across the whole product:
+**[C]** One arrow for internal navigation across the whole product:
 
 | Arrow | Container | Size | Meaning |
 | --- | --- | --- | --- |
 | `chevron-right` | none | 16 | every internal navigation and drill-down |
 
-**[C]** One arrow for internal navigation across the whole product: a bare `chevron-right` at 16, bound to the surface's secondary foreground. It applies to every clickable card or row that opens another screen — quick actions, KPI cards, list rows, inline links.
+**[C]** It is a bare `chevron-right` at 16, bound to the surface's secondary foreground, and it applies to every clickable card or row that opens another screen — quick actions, KPI cards, list rows, inline links.
 
 **[C]** Arrows with a meaning of their own are untouched: `chevron-down` for dropdowns, back arrows, and external-link arrows keep their own icons. This rule is about internal navigation, not about every arrow in the product.
 
@@ -294,9 +294,9 @@ These come from settled product decisions (PRD §3.2.4, §6.9). They are cheap t
 
 | | Product | Learning prototype |
 | --- | --- | --- |
-| Repository | `LanaMorozova/Trenumi` | `trenumi-ui-lab` — separate, **not created yet** |
+| Repository | `LanaMorozova/trenumi` | `trenumi-ui-lab` — separate, **not created yet** |
 | Holds | README, PRD, design documentation, future production code | course exercises and UI experiments |
-| Stack | **[O]** undecided, §3, needs approval | React + TypeScript + Vite + Storybook, Figma design tokens, GitHub PRs, live deployment |
+| Stack | **[O]** undecided, §3, needs approval | React + TypeScript + Vite + Storybook, Figma design tokens, GitHub PRs, live deployment — **the course sets this, it is not a §3 decision** |
 | Status | the product | teaching material |
 
 **[C]** The prototype's stack is **not** an architecture decision for Trenumi. §3 stays open and still requires approval; nothing in `trenumi-ui-lab` sets a precedent for the MVP.
@@ -327,9 +327,12 @@ RESEARCH_PLAN.md       hypotheses, interview guide, decision rules
 brand/                 brand kit as delivered — logos, app icons, splash,
                        app store concepts, brandbook, colour tokens
 docs/design-system/    component reference, written as components are built
+.claude/               agents and skills used in this repository
 ```
 
-**[C]** The repository is live at **github.com/LanaMorozova/Trenumi** (private). It is the **product** repository. The learning prototype gets its own repository, `trenumi-ui-lab` (§4.11), which does not exist yet; course code never lands here. GitHub and the Figma file "Coach" are the two sources of truth for current state: documentation and tokens in the repository, components and their visual documentation in Figma.
+**[C]** The repository is live at **github.com/LanaMorozova/trenumi** and is **public** — it is part of the product owner's portfolio. It is the **product** repository. The learning prototype gets its own repository, `trenumi-ui-lab` (§4.11), which does not exist yet; course code never lands here. GitHub and the Figma file "Trenumi" are the two sources of truth for current state: documentation and tokens in the repository, components and their visual documentation in Figma.
+
+**[C]** Because the repository is public, the rules that assumed a private one now bind in the open: no real client data anywhere in the tree (§4.11), no secrets in the repository or in any example file (§7), and no personal data in a commit message. Anything written here is published the moment it is pushed.
 
 **[C]** `brand/` is named as it arrived on disk, including the nested `brand/brand/`. Do not rename it without asking.
 
@@ -396,7 +399,7 @@ Specifically:
 - Test behavior, not implementation details. A test that only restates the code earns nothing.
 
 ### Git
-- **[C]** The repository is live: `github.com/LanaMorozova/Trenumi` (private), default branch `main`, remote `origin` configured.
+- **[C]** The repository is live: `github.com/LanaMorozova/trenumi` (**public**, §5), default branch `main`, remote `origin` configured.
 - **[A]** Conventional commits (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`). One logical change per commit.
 - **[A]** Branch per change, no direct commits to the default branch.
 - Do not commit or push unless asked.
@@ -434,7 +437,7 @@ Specifically:
 
 ## 9.1 What NOT to do — quick reference
 
-A digest of the hard prohibitions stated above, gathered in one place. Each line names the section that owns it; **where they differ, the section wins** — this list is a reminder, not a second source of truth.
+A digest of the hard prohibitions stated above, gathered in one place. Each line names the section that owns it; **where a line and its section differ, the section wins** — this list is a reminder, not a second source of truth. This resolves disagreements *inside this file* only; conflicts *between documents* are resolved by §1.
 
 ### Process
 - Do not write application code yet — architecture and UX are reviewed first (§2)
@@ -478,7 +481,7 @@ A digest of the hard prohibitions stated above, gathered in one place. Each line
 
 - README.md — **[C]** v0.8, October 29, 2026.
 - PRD.md — **[A]** v0.8, draft for review, October 29, 2026. 148 numbered FR/NFR requirements.
-- CLAUDE.md — this file, v0.8. §3 remains a placeholder until the stack is decided.
+- CLAUDE.md — this file, **[C]** v0.10, November 4, 2026. §3 remains a placeholder until the stack is decided.
 - Coach Dashboard delivered in five states on `📱 Mobile App`, awaiting final approval. No other product screen is designed yet.
 
 ### Design system — current state
